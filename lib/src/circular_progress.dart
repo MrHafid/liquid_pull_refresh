@@ -24,7 +24,7 @@ class CircularProgress extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CircularProgressState createState() => _CircularProgressState();
+  State<CircularProgress> createState() => _CircularProgressState();
 }
 
 class _CircularProgressState extends State<CircularProgress> {
@@ -33,14 +33,14 @@ class _CircularProgressState extends State<CircularProgress> {
     double containerLength =
         2 * max(widget.progressCircleRadius, widget.innerCircleRadius);
 
-    return Container(
+    return SizedBox(
       height: containerLength,
       width: containerLength,
       child: Stack(
         children: <Widget>[
           Opacity(
             opacity: widget.progressCircleOpacity,
-            child: Container(
+            child: SizedBox(
               height: widget.progressCircleRadius * 2,
               width: widget.progressCircleRadius * 2,
               child: CustomPaint(
@@ -71,8 +71,10 @@ class _CircularProgressState extends State<CircularProgress> {
 }
 
 class CircularProgressIndicator extends StatefulWidget {
+  const CircularProgressIndicator({Key? key}) : super(key: key);
+
   @override
-  _CircularProgressIndicatorState createState() =>
+  State<CircularProgressIndicator> createState() =>
       _CircularProgressIndicatorState();
 }
 
