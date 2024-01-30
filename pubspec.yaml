@@ -1,7 +1,8 @@
 name: liquid_pull_refresh
-description: "A beautiful and custom refresh indicator with some cool animations and transitions for flutter."
-version: 1.0.2
+description: "A beautiful and custom refresh indicator or image loader, icon, with some cool animations and transitions for flutter."
+version: 1.0.3
 homepage: https://github.com/MrHafid/liquid_pull_refresh
+repository: https://github.com/MrHafid/liquid_pull_refresh
 
 environment:
   sdk: '>=2.12.0 <4.0.0'
