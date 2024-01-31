@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'src/circular_progress.dart';
 import 'src/clipper.dart';
+import 'src/custom_shadow_path.dart';
 
 // The over-scroll distance that moves the indicator to its maximum
 // displacement, as a percentage of the scrollable's container extent.
@@ -58,7 +59,9 @@ class LiquidPullRefresh extends StatefulWidget {
       this.showChildOpacityTransition = true,
       this.loaderWidget,
       this.showDroplet = true,
-      this.heightLoader})
+      this.heightLoader,
+      this.bottomShaddow = false,
+      this.bottomShaddowCollor})
       : assert(animSpeedFactor >= 1.0),
         super(key: key);
 
@@ -84,6 +87,12 @@ class LiquidPullRefresh extends StatefulWidget {
 
   /// default is set to 100.0
   final double? heightLoader;
+
+  /// default to false
+  final bool bottomShaddow;
+
+  /// default to grey
+  final Color? bottomShaddowCollor;
 
   /// Duration in milliseconds of springy effect that occurs when
   /// we leave dragging after full drag.
@@ -629,26 +638,80 @@ class LiquidPullRefreshState extends State<LiquidPullRefresh>
             _showPeakController,
           ]),
           builder: (BuildContext buildContext, Widget? child) {
-            return ClipPath(
-              clipper: CurveHillClipper(
-                centreHeight: height,
-                curveHeight: height / 2 * _springAnimation.value, // 50.0
-                peakHeight: (widget.showDroplet ? height : 0) *
-                    3 /
-                    10 *
-                    ((_peakHeightUpAnimation.value != 1.0) //30.0
-                        ? _peakHeightUpAnimation.value
-                        : _peakHeightDownAnimation.value),
-                peakWidth: (_peakHeightUpAnimation.value != 0.0 &&
-                        _peakHeightDownAnimation.value != 0.0)
-                    ? height * 35 / 100 //35.0
-                    : 0.0,
-              ),
-              child: Container(
-                height: _value.value * height * 2, // 100.0
-                color: color,
-              ),
-            );
+            return widget.bottomShaddow
+                ? CustomPaint(
+                    painter: ClipShadowShadowPainter(
+                      clipper: CurveHillClipper(
+                        centreHeight: height,
+                        curveHeight:
+                            height / 2 * _springAnimation.value, // 50.0
+                        peakHeight: (widget.showDroplet ? height : 0) *
+                            3 /
+                            10 *
+                            ((_peakHeightUpAnimation.value != 1.0) //30.0
+                                ? _peakHeightUpAnimation.value
+                                : _peakHeightDownAnimation.value),
+                        peakWidth: (_peakHeightUpAnimation.value != 0.0 &&
+                                _peakHeightDownAnimation.value != 0.0)
+                            ? height * 35 / 100 //35.0
+                            : 0.0,
+                      ),
+                      shadow: Shadow(
+                          color: widget.bottomShaddowCollor != null
+                              ? widget.bottomShaddowCollor!.withOpacity(0.2)
+                              : Colors.grey.withOpacity(0.2),
+                          offset: const Offset(0, 5),
+                          blurRadius: 6.0),
+                    ),
+                    child: ClipPath(
+                      clipper: CurveHillClipper(
+                        centreHeight: height,
+                        curveHeight:
+                            height / 2 * _springAnimation.value, // 50.0
+                        peakHeight: (widget.showDroplet ? height : 0) *
+                            3 /
+                            10 *
+                            ((_peakHeightUpAnimation.value != 1.0) //30.0
+                                ? _peakHeightUpAnimation.value
+                                : _peakHeightDownAnimation.value),
+                        peakWidth: (_peakHeightUpAnimation.value != 0.0 &&
+                                _peakHeightDownAnimation.value != 0.0)
+                            ? height * 35 / 100 //35.0
+                            : 0.0,
+                      ),
+                      child: Container(
+                        height: _value.value * height * 2, // 100.0
+                        color: color,
+                        // decoration: BoxDecoration(color: color, boxShadow: const [
+                        //   BoxShadow(
+                        //       color: Colors.grey,
+                        //       offset: Offset(0, 6),
+                        //       spreadRadius: 2,
+                        //       blurRadius: 4),
+                        // ]),
+                      ),
+                    ),
+                  )
+                : ClipPath(
+                    clipper: CurveHillClipper(
+                      centreHeight: height,
+                      curveHeight: height / 2 * _springAnimation.value, // 50.0
+                      peakHeight: (widget.showDroplet ? height : 0) *
+                          3 /
+                          10 *
+                          ((_peakHeightUpAnimation.value != 1.0) //30.0
+                              ? _peakHeightUpAnimation.value
+                              : _peakHeightDownAnimation.value),
+                      peakWidth: (_peakHeightUpAnimation.value != 0.0 &&
+                              _peakHeightDownAnimation.value != 0.0)
+                          ? height * 35 / 100 //35.0
+                          : 0.0,
+                    ),
+                    child: Container(
+                      height: _value.value * height * 2, // 100.0
+                      color: color,
+                    ),
+                  );
           },
         ),
         SizedBox(
