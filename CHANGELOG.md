@@ -6,6 +6,6 @@
 
 * TODO: Add image or widget center of loader.
 
-## 1.0.5
+## 1.0.6
 
 * Add image or widget center of loader and add bottom shadow with default false and color grey opaticity 0.2.
