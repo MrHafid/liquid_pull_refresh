@@ -113,6 +113,8 @@ If you do not want the opacity transition of child then set `showChildOpacityTra
 | heightLoader                          | double          | Height loader.                                                                                         |          100.0        |
 | showDroplet                           | bool            | Show drop like water, default true                                                                     |          true         |
 | loaderWidget                          | Widget          | Show add widget inside loader for image or other widget.                                               |       Container()     |
+| bottomShadow                          | bool            | Show shadow in bottom liquid.                                                                          |          false        |
+| bottomShadowColor                     | Color           | Change color for shadow bottom when true.                                                              | grey.withOpacity(0.2) |
 
 For help on editing package code, view the [flutter documentation](https://flutter.io/developing-packages/).
 
